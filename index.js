@@ -20,10 +20,10 @@ app.set('view engine', 'ejs');
 
 /* Configure MySQL DBMS */
 const connection = mysql.createConnection({
-    host: 'localhost',//'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'cathsu',//'m6p63nd8yypcno2c',
-    password: 'cathsu' ,//'v4f5mzdjd1b6tlpm',
-    database: 'quotes_db' ,//'wgqij9oon6gipvu9', 
+    host: 'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'm6p63nd8yypcno2c',
+    password: 'v4f5mzdjd1b6tlpm',
+    database: 'wgqij9oon6gipvu9', 
     multipleStatements: true
 });
 
@@ -49,13 +49,14 @@ app.get('/', function(req, res){
     
 });
 
+// Login/Logout Routes
 app.get('/login', function(req, res) {
     res.render('login');    
 }); 
 
 
 app.post('/login', function(req, res){
-    console.log("username = " + req.body.username + " password = " + req.body.password);
+    // console.log("username = " + req.body.username + " password = " + req.body.password);
     let isLoginValid = checkLoginCredentials(req.body.username, req.body.password); 
     console.log(isLoginValid);
     if(isLoginValid){
@@ -73,16 +74,8 @@ app.get('/logout', function(req, res){
    res.redirect('/');
 });
 
-app.get('/quotes', function(req, res) {
-    var stmt = getSQLStatement(req);
-    connection.query(stmt, function(error, found){
-	    if(error) throw error;
-	    res.render('quotes', {quotes: found, clickedAuthor: null});
-	});
-    // console.log(stmt);
-    
-});
 
+// Admin Author Routes
 app.get("/author", isAuthenticated, function(req, res) {
     var stmt = 'SELECT * FROM l9_author;';
     console.log(stmt);
@@ -202,6 +195,17 @@ app.get('/author/:aid/delete', isAuthenticated, function(req, res){
 
 
 
+// Quote Routes
+app.get('/quotes', function(req, res) {
+    var stmt = getSQLStatement(req);
+    connection.query(stmt, function(error, found){
+	    if(error) throw error;
+	    res.render('quotes', {quotes: found, clickedAuthor: null});
+	});
+    // console.log(stmt);
+    
+});
+
 app.get("/author/:id/modal", function(req, res) {
     var stmt = "select * from l9_author where authorId=" + req.params.id + ";";
     connection.query(stmt, function(error, found){
@@ -209,7 +213,6 @@ app.get("/author/:id/modal", function(req, res) {
 	    res.send(found);
 	});
 });
-
 
 
 /* The handler for undefined routes */
