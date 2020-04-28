@@ -16,7 +16,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.set('trust proxy', 1); // from https://stackoverflow.com/questions/48966013/nodejs-heroku-express-sessions
+// app.set('trust proxy', 1); // from https://stackoverflow.com/questions/48966013/nodejs-heroku-express-sessions
 app.set('view engine', 'ejs');
 
 /* Configure MySQL DBMS */
@@ -121,7 +121,7 @@ app.post('/author/new', isAuthenticated, function(req, res){
        if(result.length){
             var authorId = result[0]['COUNT(*)'] + 1;
             var stmt = 'INSERT INTO l9_author ' +
-                      '(authorId, firstName, lastName, dob, dod, sex, profession, country, biography) '+
+                      '(authorId, firstName, lastName, dob, dod, sex, profession, portrait, country, biography) '+
                       'VALUES ' +
                       '(' + 
                        authorId + ',"' +
@@ -130,6 +130,7 @@ app.post('/author/new', isAuthenticated, function(req, res){
                        req.body.dob + '","' +
                        req.body.dod + '","' +
                        req.body.sex + '","' +
+                       req.body.profession + '","' +
                        req.body.profession + '","' +
                        req.body.country + '","' +
                        req.body.biography + '"' +
@@ -177,7 +178,7 @@ app.put('/author/:aid', isAuthenticated, function(req, res){
                 'country = "'+ req.body.country + '",' +
                 'biography = "'+ req.body.biography + '"' +
                 'WHERE authorId = ' + req.params.aid + ";"
-    //console.log(stmt);
+    console.log(stmt);
     connection.query(stmt, function(error, result){
         if(error) throw error;
         res.redirect('/author/' + req.params.aid + "/bio");
