@@ -16,7 +16,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-// app.set('trust proxy', 1); // from https://stackoverflow.com/questions/48966013/nodejs-heroku-express-sessions
 app.set('view engine', 'ejs');
 
 /* Configure MySQL DBMS */
