@@ -2,6 +2,11 @@
 
 <div class='container'>
 	<div class='jumbotron'>
+		<%if (isLoggedIn) {%>
+			<a class='btn btn-danger' href='/logout'>Logout</a>
+		<%} else {%>
+			<a class='btn btn-primary' href='/login'>Login</a>
+		<%}%>
 		<h1> POPULAR QUOTES </h1>
 		<form action='/quotes' method='GET'>
 			<div class='form-group row'>
@@ -36,7 +41,7 @@
 			<div class='form-group row'>
 				<label for='gender' class='col-sm-4 col-form-label'>Gender</label>
 				<div class='col-sm-4'>
-					<input type='text' class='form-control' id='gender' name='gender' placeholder= 'Gender'>
+					<input type='text' class='form-control' id='gender' name='gender' placeholder= 'Enter M for male, F for female'>
 				</div>
 			</div>
 			<div class='form-group row'>

@@ -18,7 +18,7 @@
         <ul>
             <%quotes.forEach(function(q){%>
                 <li>
-                    <a href="/quotes" id ="<%=q.authorId%>" data-toggle="modal" data-target="#exampleModal"><%=q.firstName + " " + q.lastName%></a>
+                    <a href="/quotes" id ="<%=q.authorId%>" class="quotes" data-toggle="modal" data-target="#exampleModal"><%=q.firstName + " " + q.lastName%></a>
                     : <%=q.quote%>
                 </li>
             <%});%>
